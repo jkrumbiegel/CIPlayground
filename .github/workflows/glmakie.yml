@@ -1,0 +1,29 @@
+name: GLMakie CI
+on: [push]
+
+jobs:
+  test:
+    name: GLMakie Julia ${{ matrix.version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1.6'
+          - '1' # automatically expands to the latest stable 1.x release of Julia
+        os:
+          - ubuntu-20.04
+        arch:
+          - x64
+    steps:
+      - name: Save number of missing refimages to file
+        env:
+          N_MISSING: '2'
+        run: |
+          mkdir -p ./n_missing
+          echo $N_MISSING > ./n_missing/n_missing_refimages
+      - name: Upload artifact with number of missing refimages
+        uses: actions/upload-artifact@v3
+        with:
+          name: n_missing_refimages
+          path: n_missing/
