@@ -39,18 +39,19 @@ jobs:
       - name: Add reference images status
         uses: actions/github-script@v6
         if: matrix.version == '1'
-        env:
-          n_missing_refimages: ${{ cat ./n_missing_refimages }}
         with:
           debug: true
           script: |
+            let fs = require('fs');
+            let n_missing = Number(fs.readFileSync('./n_missing_refimages'));
+
             await github.request('POST /repos/{owner}/{repo}/statuses/{sha}', {
               owner: context.repo.owner,
               repo: context.repo.repo,
               sha: "${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}",
-              state: process.env.n_missing_refimages === '0' ? 'success' : 'failure',
+              state: n_missing === 0 ? 'success' : 'failure',
               target_url: null,
-              description: process.env.n_missing_refimages + " missing refimages must be uploaded",
+              description: n_missing + " missing refimages must be uploaded",
               context: 'Reference Tests',
               headers: {
                 'X-GitHub-Api-Version': '2022-11-28'
