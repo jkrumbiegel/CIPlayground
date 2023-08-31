@@ -8,7 +8,8 @@ on:
 
 jobs:
   download:
-    permissions: write-all
+    permissions:
+      statuses: write
     runs-on: ubuntu-latest
     steps:
       - name: "Download artifact"
