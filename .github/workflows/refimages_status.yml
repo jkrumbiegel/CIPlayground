@@ -40,6 +40,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           debug: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             let fs = require('fs');
             let n_missing = Number(fs.readFileSync('./n_missing_refimages'));
