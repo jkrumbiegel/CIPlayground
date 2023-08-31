@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Save number of missing refimages to file
         env:
-          N_MISSING: '1'
+          N_MISSING: '0'
           COMMIT_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
         run: |
           mkdir -p ./n_missing
