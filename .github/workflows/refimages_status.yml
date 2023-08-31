@@ -45,7 +45,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             let fs = require('fs');
-            let content = fs.readFileSync('./n_missing_refimages');
+            let content = fs.readFileSync('./n_missing_refimages', { encoding: 'utf8' });
             let lines = content.split('\n');
             let n_missing = Number(lines[0]);
             let commit_sha = lines[1];
